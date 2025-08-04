@@ -21,7 +21,7 @@ public class Main {
 
     }
 
-    //Creamos un hilo para cada cliente y después llamamos al metodo que maneja el request
+    //Creamos un hilo para cada cliente y después llamamos al método que maneja el request
     public void dispatchWorker(Socket socket) throws IOException {
 
         new Thread(
@@ -37,7 +37,7 @@ public class Main {
     }
 
     //Usamos un BufferedReader para leer línea por línea del InputStream del socket.
-    //Si la línea empieza con un GET extraemos el nombre del documento y llamaos a sendResponse()
+    //Si la línea empieza con un GET extraemos el nombre del documento y llamamos a sendResponse()
     public void handleRequest(Socket socket) throws Exception {
 
         var reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -55,7 +55,7 @@ public class Main {
         }
     }
 
-    //
+    //Enviamos la respuesta pero en grupos de bytes, para manejar todo tipo de archivos
     private void sendResponse(Socket socket, String resource) throws Exception {
 
         BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
@@ -113,6 +113,7 @@ public class Main {
 
     }
 
+    //Enviamos en bytes agrupados nuestra respuesta es decir el body
     private static void enviarBytes(InputStream fis, OutputStream os) throws Exception {
         byte[] buffer = new byte[1024];
         int bytes = 0;
@@ -121,6 +122,7 @@ public class Main {
         }
     }
 
+    //Enviamos String de nuestra respuesta en este caso lo usamos para los headers
     private static void enviarString(String line, OutputStream os) throws Exception {
         os.write(line.getBytes(StandardCharsets.UTF_8));
     }
